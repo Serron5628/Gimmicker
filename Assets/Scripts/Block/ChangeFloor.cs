@@ -19,9 +19,11 @@ public class ChangeFloor : MonoBehaviour
         if (isTrigger && Input.GetKeyDown(KeyCode.Space))
         {
             needKey = true;
+            Debug.Log("入ったよ");
         }
         if(needKey)
         {
+            Debug.Log("押したよ");
             UpAndDown();
         }
     }
