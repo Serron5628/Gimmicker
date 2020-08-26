@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class ChangeFloor : MonoBehaviour
 {
-    public GameObject firstUpFloor;     //押すスイッチが最初に下げるべきブロック群を入れる。
-    public GameObject firstDownFloor;   //押すスイッチが最初に上げるべきブロック群を入れる。
-    bool whichFirstUp = true;           //どっちのブロックを動かすか。
+    public GameObject FloorA;     //押すスイッチが最初に下げるべきブロック群を入れる。
+    public GameObject FloorB;   //押すスイッチが最初に上げるべきブロック群を入れる。
+    int needMove = 0;                   //動かすか。０は動かない。１はＢを上にあげる。２はＡを上にあげる。
     bool isTrigger = false;             //スイッチにTriggerEnterしてるかどうか。
     bool needKey = false;               //キーを押したかどうか。
     public Vector3 upPos = new Vector3(0.0f, 2.5f, 0.0f);   //Inspectorで指定できる、移動させる上の位置。頭上ギリギリの座標は禁止。
@@ -19,11 +19,17 @@ public class ChangeFloor : MonoBehaviour
         if (isTrigger && Input.GetKeyDown(KeyCode.Space))
         {
             needKey = true;
-            Debug.Log("入ったよ");
+            if (FloorA.transform.position == upPos)
+            {
+                needMove = 1;
+            }
+            else if (FloorA.transform.position == downPos)
+            {
+                needMove = 2;
+            }
         }
         if(needKey)
         {
-            Debug.Log("押したよ");
             UpAndDown();
         }
     }
@@ -47,32 +53,32 @@ public class ChangeFloor : MonoBehaviour
 
     void UpAndDown()
     {
-        if (whichFirstUp)
+        if(needMove == 1)
         {
-            firstDownFloor.transform.position = Vector3.Lerp(firstDownFloor.transform.position, upPos, lerpSpeed * Time.deltaTime);
-            firstUpFloor.transform.position = Vector3.Lerp(firstUpFloor.transform.position, downPos, lerpSpeed * Time.deltaTime);
-            if (Mathf.Round(firstDownFloor.transform.position.y * 10) / 10 == upPos.y)
+            FloorA.transform.position = Vector3.Lerp(FloorA.transform.position, downPos, lerpSpeed * Time.deltaTime);
+            FloorB.transform.position = Vector3.Lerp(FloorB.transform.position, upPos, lerpSpeed * Time.deltaTime);
+            if (Mathf.Round(FloorB.transform.position.y * 10) / 10 == upPos.y)
             {
                 //最後の調整。
-                firstDownFloor.transform.position = new Vector3(firstDownFloor.transform.position.x, Mathf.Round(firstDownFloor.transform.position.y * 10) / 10, firstDownFloor.transform.position.z);
-                firstUpFloor.transform.position = new Vector3(firstUpFloor.transform.position.x, Mathf.Round(firstUpFloor.transform.position.y * 10) / 10, firstUpFloor.transform.position.z);
+                FloorA.transform.position = new Vector3(FloorA.transform.position.x, downPos.y, FloorA.transform.position.z);
+                FloorB.transform.position = new Vector3(FloorB.transform.position.x, upPos.y, FloorB.transform.position.z);
                 isTrigger = false;  //二度押し禁止。
-                whichFirstUp = !whichFirstUp;
                 needKey = false;
+                needMove = 0;
             }
         }
-        else
+        else if(needMove == 2)
         {
-            firstUpFloor.transform.position = Vector3.Lerp(firstUpFloor.transform.position, upPos, lerpSpeed * Time.deltaTime);
-            firstDownFloor.transform.position = Vector3.Lerp(firstDownFloor.transform.position, downPos, lerpSpeed * Time.deltaTime);
-            if (Mathf.Round(firstUpFloor.transform.position.y * 10) / 10 == upPos.y)
+            FloorA.transform.position = Vector3.Lerp(FloorA.transform.position, upPos, lerpSpeed * Time.deltaTime);
+            FloorB.transform.position = Vector3.Lerp(FloorB.transform.position, downPos, lerpSpeed * Time.deltaTime);
+            if (Mathf.Round(FloorA.transform.position.y * 10) / 10 == upPos.y)
             {
                 //最後の調整。
-                firstDownFloor.transform.position = new Vector3(firstDownFloor.transform.position.x, Mathf.Round(firstDownFloor.transform.position.y * 10) / 10, firstDownFloor.transform.position.z);
-                firstUpFloor.transform.position = new Vector3(firstUpFloor.transform.position.x, Mathf.Round(firstUpFloor.transform.position.y * 10) / 10, firstUpFloor.transform.position.z);
+                FloorA.transform.position = new Vector3(FloorA.transform.position.x, upPos.y, FloorA.transform.position.z);
+                FloorB.transform.position = new Vector3(FloorB.transform.position.x, downPos.y, FloorB.transform.position.z);
                 isTrigger = false;  //二度押し禁止。
-                whichFirstUp = !whichFirstUp;
                 needKey = false;
+                needMove = 0;
             }
         }
     }
