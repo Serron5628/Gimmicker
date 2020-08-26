@@ -12,7 +12,7 @@ public class YouCanMove : MonoBehaviour
         {
             for(int i = 0; i < enemys.Length; i++)
             {
-                //enemys[i].gameObject.GetComponent<>
+                enemys[i].gameObject.GetComponent<EnemyMove>().needMove = true;
             }
         }
     }

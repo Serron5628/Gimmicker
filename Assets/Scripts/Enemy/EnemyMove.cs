@@ -2,15 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyMoveZ : MonoBehaviour
+public class EnemyMove : MonoBehaviour
 {
-    public Vector3 moveZ = new Vector3(0.0f, 0.0f, 1.0f);
+    public Vector3 x = new Vector3(1.0f, 0.0f, 0.0f);
+    public Vector3 z = new Vector3(0.0f, 0.0f, 1.0f);
 
     public float speed = 8.0f;
     Vector3 beforePos;
     Vector3 target;
     Rigidbody rigid;
-    public bool needMove = false;
+    public bool needMove = true;
+    public bool moveZ = true;
+    public bool moveX = false;
 
     void Start()
     {
@@ -26,7 +29,14 @@ public class EnemyMoveZ : MonoBehaviour
         float distance = (transform.position - target).sqrMagnitude;    //二乗。
         if (distance <= 0.002f)  //ほぼ0
         {
-            transform.position = new Vector3(transform.position.x, transform.position.y, Mathf.RoundToInt(transform.position.z));
+            if (moveX)
+            {
+                transform.position = new Vector3(Mathf.RoundToInt(transform.position.x), transform.position.y, transform.position.z);
+            }
+            if(moveZ)
+            {
+                transform.position = new Vector3(transform.position.x, transform.position.y, Mathf.RoundToInt(transform.position.z));
+            }
 
             TargetPosition();
         }
@@ -38,7 +48,8 @@ public class EnemyMoveZ : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.LeftArrow) ||
             Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.DownArrow))
         {
-            target = transform.position + moveZ;
+            if(moveZ) target = transform.position + z;
+            if(moveX) target = transform.position + x;
             beforePos = transform.position;
             transform.LookAt(target);
             return;
@@ -52,10 +63,11 @@ public class EnemyMoveZ : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Wall"))
+        if (other.gameObject.CompareTag("Wall") || other.gameObject.CompareTag("Enemy"))
         {
             target = beforePos;
-            moveZ *= -1;
+            if(moveX) x *= -1;
+            if(moveZ) z *= -1;
         }
     }
 }
