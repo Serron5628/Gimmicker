@@ -169,11 +169,11 @@ GameObject:
   - component: {fileID: 6691700886891260160}
   - component: {fileID: 6484475198829294225}
   - component: {fileID: 7830686723340929918}
-  - component: {fileID: 4470775769655248842}
   - component: {fileID: 1844270002501390589}
+  - component: {fileID: 1505270115936918119}
   m_Layer: 0
   m_Name: EnemyZ
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -223,20 +223,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.9, y: 0.5, z: 0.9}
   m_Center: {x: 0, y: 0.25, z: 0}
---- !u!114 &4470775769655248842
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6691700886891260167}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b24dda92e900694498e6367ebe0dc2c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveZ: {x: 0, y: 0, z: 1}
-  speed: 8
 --- !u!114 &1844270002501390589
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -250,3 +236,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
+--- !u!114 &1505270115936918119
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6691700886891260167}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28a6df129d982f34a89f4cc1f6981841, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  x: {x: 1, y: 0, z: 0}
+  z: {x: 0, y: 0, z: 1}
+  speed: 8
+  needMove: 0
+  moveZ: 1
+  moveX: 0
