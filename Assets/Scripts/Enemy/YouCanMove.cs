@@ -14,6 +14,7 @@ public class YouCanMove : MonoBehaviour
             {
                 enemys[i].gameObject.GetComponent<EnemyMove>().needMove = true;
             }
+            Destroy(this.gameObject);
         }
     }
 }

@@ -19,6 +19,7 @@ public class ChangeFloor : MonoBehaviour
         if (isTrigger && Input.GetKeyDown(KeyCode.Space))
         {
             needKey = true;
+            GetComponent<Animator>().SetTrigger("Push");
             if (FloorA.transform.position == upPos)
             {
                 needMove = 1;
@@ -47,6 +48,7 @@ public class ChangeFloor : MonoBehaviour
         //スイッチを押さずに出てきたときの対応。
         if (other.gameObject.CompareTag("Player"))
         {
+            GetComponent<Animator>().SetTrigger("Out");
             isTrigger = false;
         }
     }
