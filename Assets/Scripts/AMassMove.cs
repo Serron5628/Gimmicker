@@ -11,6 +11,7 @@ public class AMassMove : MonoBehaviour
     public Vector3 beforePos;
     public Vector3 target;
     Rigidbody rigid;
+    Animator heroAnim;
 
     void Start()
     {
@@ -19,6 +20,7 @@ public class AMassMove : MonoBehaviour
         rigid = gameObject.GetComponent<Rigidbody>();
         rigid.useGravity = false;
         rigid.isKinematic = true;
+        heroAnim = transform.Find("Shape").gameObject.GetComponent<Animator>();
     }
 
     void FixedUpdate()
@@ -37,6 +39,7 @@ public class AMassMove : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
+            heroAnim.SetTrigger("Walk");
             target = transform.position + moveX;
             beforePos = transform.position;
             transform.LookAt(target);
@@ -44,6 +47,7 @@ public class AMassMove : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
+            heroAnim.SetTrigger("Walk");
             target = transform.position - moveX;
             beforePos = transform.position;
             transform.LookAt(target);
@@ -51,6 +55,7 @@ public class AMassMove : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
+            heroAnim.SetTrigger("Walk");
             target = transform.position + moveZ;
             beforePos = transform.position;
             transform.LookAt(target);
@@ -58,6 +63,7 @@ public class AMassMove : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
+            heroAnim.SetTrigger("Walk");
             target = transform.position - moveZ;
             beforePos = transform.position;
             transform.LookAt(target);
