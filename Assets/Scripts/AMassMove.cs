@@ -7,10 +7,9 @@ public class AMassMove : MonoBehaviour
     public Vector3 moveX = new Vector3(1.0f, 0.0f, 0.0f);
     public Vector3 moveZ = new Vector3(0.0f, 0.0f, 1.0f);
 
-    public float speed = 7.0f;
+    public float speed = 8.0f;
     public Vector3 beforePos;
     public Vector3 target;
-    public int moveSpeed = 20;
     Rigidbody rigid;
     Animator heroAnim;
 
@@ -27,7 +26,7 @@ public class AMassMove : MonoBehaviour
     void FixedUpdate()
     {
         float distance = (transform.position - target).sqrMagnitude;    //二乗。
-        if (distance <= 0.0002f)  //ほぼ0
+        if (distance <= 0.002f)  //ほぼ0
         {
             transform.position = new Vector3(Mathf.RoundToInt(transform.position.x), transform.position.y, Mathf.RoundToInt(transform.position.z));
 
@@ -40,42 +39,40 @@ public class AMassMove : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            heroAnim.SetTrigger("Walk");
             target = transform.position + moveX;
             beforePos = transform.position;
             transform.LookAt(target);
+            heroAnim.SetTrigger("Walk");
             return;
         }
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            heroAnim.SetTrigger("Walk");
             target = transform.position - moveX;
             beforePos = transform.position;
             transform.LookAt(target);
+            heroAnim.SetTrigger("Walk");
             return;
         }
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
-            heroAnim.SetTrigger("Walk");
             target = transform.position + moveZ;
             beforePos = transform.position;
             transform.LookAt(target);
+            heroAnim.SetTrigger("Walk");
             return;
         }
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
-            heroAnim.SetTrigger("Walk");
             target = transform.position - moveZ;
             beforePos = transform.position;
             transform.LookAt(target);
+            heroAnim.SetTrigger("Walk");
             return;
         }
     }
 
     void Move()
     {
-        //if (target == transform.position) return;
-        //transform.position += (target-transform.position) / moveSpeed;
         transform.position = Vector3.Lerp(transform.position, target, speed * Time.deltaTime);
     }
     
