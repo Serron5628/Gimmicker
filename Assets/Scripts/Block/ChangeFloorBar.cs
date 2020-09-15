@@ -6,7 +6,6 @@ public class ChangeFloorBar : MonoBehaviour
 {
     Animator anim;
     public bool firstLeft = true;
-    string which;
 
     void Start()
     {
@@ -15,9 +14,7 @@ public class ChangeFloorBar : MonoBehaviour
     
     void MoveAnimation()
     {
-        if (firstLeft) which = "Left";
-        else if (!firstLeft) which = "Right";
-        anim.SetTrigger(which);
+        anim.SetTrigger("Move");
         firstLeft = !firstLeft;
     }
 }
