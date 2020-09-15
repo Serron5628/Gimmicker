@@ -13,10 +13,12 @@ public class ChangeFloor : MonoBehaviour
     public Vector3 downPos = new Vector3(0.0f, 1.3f, 0.0f); //Inspectorで指定できる、移動させる下の位置。足元ギリギリの座標は禁止。
     public float lerpSpeed = 6.0f;      //床が上がるスピード。値が大きいほど速い。
     GameObject switchAll;
+    Animator swithAnim;
 
     private void Start()
     {
         switchAll = transform.parent.gameObject;
+        swithAnim = GetComponent<Animator>();
     }
 
     private void Update()
@@ -88,5 +90,11 @@ public class ChangeFloor : MonoBehaviour
                 needMove = 0;
             }
         }
+    }
+
+    void Anim()
+    {
+        swithAnim.speed = 4;
+        swithAnim.SetTrigger("Right");
     }
 }
