@@ -7,16 +7,20 @@ public class EnemyMove : MonoBehaviour
     public Vector3 x = new Vector3(1.0f, 0.0f, 0.0f);
     public Vector3 z = new Vector3(0.0f, 0.0f, 1.0f);
 
-    public float speed = 8.0f;
+    public float speed;
     Vector3 beforePos;
-    Vector3 target;
+    public Vector3 target;
     Rigidbody rigid;
     public bool needMove = true;
     public bool moveZ = true;
     public bool moveX = false;
+    public GameObject player;
+    AMassMove playerScr;
 
     void Start()
     {
+        playerScr = player.GetComponent<AMassMove>();
+        speed = playerScr.speed;
         target = transform.position;
         beforePos = transform.position;
         rigid = GetComponent<Rigidbody>();
@@ -25,6 +29,11 @@ public class EnemyMove : MonoBehaviour
 
     void FixedUpdate()
     {
+        if(playerScr.target == target || (playerScr.beforePos == target && beforePos == playerScr.target))
+        {
+            Invoke("KillPlayer", 1 / speed);    //死ぬ時間は適当です。
+        }
+        if (playerScr.canMove == false) return;
         if (!needMove) return;
         float distance = (transform.position - target).sqrMagnitude;    //二乗。
         if (distance <= 0.002f)  //ほぼ0
@@ -69,5 +78,10 @@ public class EnemyMove : MonoBehaviour
             if(moveX) x *= -1;
             if(moveZ) z *= -1;
         }
+    }
+
+    void KillPlayer()
+    {
+        player.gameObject.SetActive(false);
     }
 }

@@ -14,20 +14,30 @@ public class ChangeFloor : MonoBehaviour
     public float lerpSpeed = 6.0f;      //床が上がるスピード。値が大きいほど速い。
     GameObject switchAll;
     Animator swithAnim;
-    public AMassMove playerMove;
+    public GameObject player;
+    AMassMove playerMove;
     public bool leftLever = true;
 
     private void Start()
     {
+        playerMove = player.GetComponent<AMassMove>();
         switchAll = transform.parent.gameObject;
         swithAnim = GetComponent<Animator>();
     }
 
     private void Update()
     {
-        //スイッチ内部に入ってて、かつ、スペースキーを押したら。
-        if (isTrigger && Input.GetKeyDown(KeyCode.Space))
+        if(player.gameObject.transform.position.x == this.gameObject.transform.position.x &&
+           player.gameObject.transform.position.z == this.gameObject.transform.position.z)
         {
+            isTrigger = true;
+        }
+        else isTrigger = false;
+
+        //スイッチ内部に入ってて、かつ、スペースキーを押したら。
+        if (isTrigger && Input.GetKeyDown(KeyCode.Space) && needKey == false)
+        {
+            isTrigger = false;
             playerMove.canMove = false;
             needKey = true;
             switchAll.gameObject.SendMessage("MoveAnimation");
@@ -40,30 +50,13 @@ public class ChangeFloor : MonoBehaviour
                 needMove = 2;
             }
         }
+
         if(needKey)
         {
             UpAndDown();
         }
     }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            isTrigger = true;
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        //スイッチを押さずに出てきたときの対応。
-        if (other.gameObject.CompareTag("Player"))
-        {
-            playerMove.canMove = true;
-            isTrigger = false;
-        }
-    }
-
+    
     void UpAndDown()
     {
         if(needMove == 1)
@@ -75,7 +68,6 @@ public class ChangeFloor : MonoBehaviour
                 //最後の調整。
                 FloorA.transform.position = new Vector3(FloorA.transform.position.x, downPos.y, FloorA.transform.position.z);
                 FloorB.transform.position = new Vector3(FloorB.transform.position.x, upPos.y, FloorB.transform.position.z);
-                isTrigger = false;  //二度押し禁止。
                 needKey = false;
                 needMove = 0;
                 playerMove.canMove = true;
@@ -90,7 +82,6 @@ public class ChangeFloor : MonoBehaviour
                 //最後の調整。
                 FloorA.transform.position = new Vector3(FloorA.transform.position.x, upPos.y, FloorA.transform.position.z);
                 FloorB.transform.position = new Vector3(FloorB.transform.position.x, downPos.y, FloorB.transform.position.z);
-                isTrigger = false;  //二度押し禁止。
                 needKey = false;
                 needMove = 0;
                 playerMove.canMove = true;
