@@ -12,6 +12,7 @@ public class AMassMove : MonoBehaviour
     public Vector3 target;
     Rigidbody rigid;
     Animator heroAnim;
+    public bool canMove = true;
 
     void Start()
     {
@@ -25,6 +26,7 @@ public class AMassMove : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (!canMove) return;
         float distance = (transform.position - target).sqrMagnitude;    //二乗。
         if (distance <= 0.002f)  //ほぼ0
         {

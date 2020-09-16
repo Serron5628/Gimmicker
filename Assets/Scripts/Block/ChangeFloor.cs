@@ -14,6 +14,8 @@ public class ChangeFloor : MonoBehaviour
     public float lerpSpeed = 6.0f;      //床が上がるスピード。値が大きいほど速い。
     GameObject switchAll;
     Animator swithAnim;
+    public AMassMove playerMove;
+    public bool leftLever = true;
 
     private void Start()
     {
@@ -26,6 +28,7 @@ public class ChangeFloor : MonoBehaviour
         //スイッチ内部に入ってて、かつ、スペースキーを押したら。
         if (isTrigger && Input.GetKeyDown(KeyCode.Space))
         {
+            playerMove.canMove = false;
             needKey = true;
             switchAll.gameObject.SendMessage("MoveAnimation");
             if (FloorA.transform.position == upPos)
@@ -56,6 +59,7 @@ public class ChangeFloor : MonoBehaviour
         //スイッチを押さずに出てきたときの対応。
         if (other.gameObject.CompareTag("Player"))
         {
+            playerMove.canMove = true;
             isTrigger = false;
         }
     }
@@ -74,6 +78,7 @@ public class ChangeFloor : MonoBehaviour
                 isTrigger = false;  //二度押し禁止。
                 needKey = false;
                 needMove = 0;
+                playerMove.canMove = true;
             }
         }
         else if(needMove == 2)
@@ -88,13 +93,17 @@ public class ChangeFloor : MonoBehaviour
                 isTrigger = false;  //二度押し禁止。
                 needKey = false;
                 needMove = 0;
+                playerMove.canMove = true;
             }
         }
     }
 
     void Anim()
     {
-        swithAnim.speed = 4;
-        swithAnim.SetTrigger("Right");
+        string which;
+        if (leftLever) which = "Right";
+        else which = "Left";
+        swithAnim.SetTrigger(which);
+        leftLever = !leftLever;
     }
 }
