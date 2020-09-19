@@ -7,15 +7,16 @@ public class EnemyMove : MonoBehaviour
     public Vector3 x = new Vector3(1.0f, 0.0f, 0.0f);
     public Vector3 z = new Vector3(0.0f, 0.0f, 1.0f);
 
-    public float speed;
+    float speed;
     Vector3 beforePos;
-    public Vector3 target;
+    Vector3 target;
     Rigidbody rigid;
     public bool needMove = true;
     public bool moveZ = true;
     public bool moveX = false;
     public GameObject player;
     AMassMove playerScr;
+    Animator anim;
 
     void Start()
     {
@@ -25,6 +26,7 @@ public class EnemyMove : MonoBehaviour
         beforePos = transform.position;
         rigid = GetComponent<Rigidbody>();
         rigid.isKinematic = true;
+        anim = transform.Find("Shape").gameObject.GetComponent<Animator>();
     }
 
     void FixedUpdate()
@@ -61,6 +63,7 @@ public class EnemyMove : MonoBehaviour
             if(moveX) target = transform.position + x;
             beforePos = transform.position;
             transform.LookAt(target);
+            anim.SetTrigger("Walk");
             return;
         }
     }
