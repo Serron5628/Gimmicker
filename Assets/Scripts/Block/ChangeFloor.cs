@@ -17,18 +17,19 @@ public class ChangeFloor : MonoBehaviour
     public GameObject player;
     AMassMove playerMove;
     public bool leftLever = true;
+    Vector3 basePos;
 
     private void Start()
     {
         playerMove = player.GetComponent<AMassMove>();
         switchAll = transform.parent.gameObject;
         swithAnim = GetComponent<Animator>();
+        basePos = this.gameObject.transform.position - switchAll.transform.position;
     }
 
     private void Update()
     {
-        if(player.gameObject.transform.position.x == this.gameObject.transform.position.x &&
-           player.gameObject.transform.position.z == this.gameObject.transform.position.z)
+        if(player.gameObject.transform.position == basePos)
         {
             isTrigger = true;
         }
