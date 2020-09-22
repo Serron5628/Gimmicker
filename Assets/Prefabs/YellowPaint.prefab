@@ -288,7 +288,7 @@ GameObject:
   - component: {fileID: 4189896571014045119}
   - component: {fileID: 4189896571014045118}
   m_Layer: 0
-  m_Name: Paint
+  m_Name: YellowPaint
   m_TagString: Paint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
