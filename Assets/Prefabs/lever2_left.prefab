@@ -41,9 +41,10 @@ GameObject:
   - component: {fileID: 192863485659294901}
   - component: {fileID: 4588772794148425706}
   - component: {fileID: 7088889087962571035}
+  - component: {fileID: 7990052251406136971}
   m_Layer: 0
   m_Name: lever2_left
-  m_TagString: Untagged
+  m_TagString: Switch
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -102,6 +103,19 @@ MonoBehaviour:
   lerpSpeed: 2.5
   player: {fileID: 0}
   leftLever: 1
+--- !u!65 &7990052251406136971
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 713504968659564047}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!1 &2527138896258887755
 GameObject:
   m_ObjectHideFlags: 0
