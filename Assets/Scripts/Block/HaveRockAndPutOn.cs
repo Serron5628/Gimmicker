@@ -18,8 +18,7 @@ public class HaveRockAndPutOn : MonoBehaviour
     {
         //どこを向いてるかで値を決める。移動の仕方によって変わる。
         ImitationWhereLook();
-
-        Debug.Log(spaceCount);
+        
         if (isTrigger)
         {
             if (Input.GetKeyDown(KeyCode.Space))

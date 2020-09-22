@@ -11,7 +11,7 @@ public class ChangeFloor : MonoBehaviour
     bool needKey = false;               //キーを押したかどうか。
     public Vector3 upPos = new Vector3(0.0f, 2.5f, 0.0f);   //Inspectorで指定できる、移動させる上の位置。頭上ギリギリの座標は禁止。
     public Vector3 downPos = new Vector3(0.0f, 1.3f, 0.0f); //Inspectorで指定できる、移動させる下の位置。足元ギリギリの座標は禁止。
-    public float lerpSpeed = 6.0f;      //床が上がるスピード。値が大きいほど速い。
+    public float lerpSpeed = 2.5f;      //床が上がるスピード。値が大きいほど速い。
     GameObject switchAll;
     Animator swithAnim;
     public GameObject player;
