@@ -41,7 +41,7 @@ GameObject:
   - component: {fileID: 192863485659294901}
   - component: {fileID: 4588772794148425706}
   - component: {fileID: 7088889087962571035}
-  - component: {fileID: 7990052251406136971}
+  - component: {fileID: 4505928608294571945}
   m_Layer: 0
   m_Name: lever2_left
   m_TagString: Switch
@@ -103,7 +103,7 @@ MonoBehaviour:
   lerpSpeed: 2.5
   player: {fileID: 0}
   leftLever: 1
---- !u!65 &7990052251406136971
+--- !u!65 &4505928608294571945
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

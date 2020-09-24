@@ -31,10 +31,7 @@ public class EnemyMove : MonoBehaviour
 
     void FixedUpdate()
     {
-        if(playerScr.target == target || (playerScr.beforePos == target && beforePos == playerScr.target))
-        {
-            Invoke("KillPlayer", 1 / speed);    //死ぬ時間は適当です。
-        }
+        if(playerScr.target == target || (playerScr.beforePos == target && beforePos == playerScr.target)) player.SendMessage("Damage");
         if (playerScr.canMove == false) return;
         if (!needMove) return;
         float distance = (transform.position - target).sqrMagnitude;    //二乗。
@@ -81,10 +78,6 @@ public class EnemyMove : MonoBehaviour
             if (moveX) x *= -1;
             if (moveZ) z *= -1;
         }
-    }
-
-    void KillPlayer()
-    {
-        player.gameObject.SetActive(false);
+        if(other.gameObject.CompareTag("Player")) target = beforePos;
     }
 }

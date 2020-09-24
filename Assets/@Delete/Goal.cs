@@ -10,6 +10,8 @@ public class Goal : MonoBehaviour
     GameObject shape;
     GameObject skinMesh;
     public CinemachineVirtualCamera goalCam;
+    bool once = false;
+    public GameObject elevator;
 
     private void Start()
     {
@@ -17,14 +19,29 @@ public class Goal : MonoBehaviour
         skinMesh = shape.gameObject.transform.Find("hero").gameObject;
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void Update()
     {
-        if(other.gameObject.CompareTag("Player"))
+        if(this.gameObject.transform.position == player.transform.position && once == false)
         {
-            skinMesh.GetComponent<SkinnedMeshRenderer>().material = glad;
+            player.gameObject.GetComponent<AMassMove>().canMove = false;
             GetComponent<Animator>().SetTrigger("Goal");
-            shape.gameObject.GetComponent<Animator>().SetTrigger("Glad");
+            skinMesh.GetComponent<SkinnedMeshRenderer>().material = glad;
+            player.transform.rotation = Quaternion.Euler(0, 180, 0);
+            player.transform.parent = elevator.transform;
+            Invoke("Glad", 1.8f);
+            Invoke("Up", 4.5f);
+            once = true;
         }
+    }
+
+    void Glad()
+    {
+        shape.gameObject.GetComponent<Animator>().SetTrigger("Glad");
+    }
+
+    void Up()
+    {
+        GetComponent<Animator>().SetTrigger("Up");
     }
 
     void CameraChange()
