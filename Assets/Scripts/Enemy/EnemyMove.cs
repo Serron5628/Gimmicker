@@ -78,8 +78,8 @@ public class EnemyMove : MonoBehaviour
         if (other.gameObject.CompareTag("Wall") || other.gameObject.CompareTag("Enemy"))
         {
             target = beforePos;
-            if(moveX) x *= -1;
-            if(moveZ) z *= -1;
+            if (moveX) x *= -1;
+            if (moveZ) z *= -1;
         }
     }
 
