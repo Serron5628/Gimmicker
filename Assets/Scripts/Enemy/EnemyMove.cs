@@ -6,7 +6,7 @@ public class EnemyMove : MonoBehaviour
 {
     public Vector3 x = new Vector3(1.0f, 0.0f, 0.0f);
     public Vector3 z = new Vector3(0.0f, 0.0f, 1.0f);
-
+    
     float speed;
     Vector3 beforePos;
     Vector3 target;
@@ -31,7 +31,7 @@ public class EnemyMove : MonoBehaviour
 
     void FixedUpdate()
     {
-        if(playerScr.target == target || (playerScr.beforePos == target && beforePos == playerScr.target)) player.SendMessage("Damage");
+        //if(playerScr.target == target || (playerScr.beforePos == target && beforePos == playerScr.target)) player.SendMessage("Damage");
         if (playerScr.canMove == false) return;
         if (!needMove) return;
         float distance = (transform.position - target).sqrMagnitude;    //二乗。
@@ -46,6 +46,7 @@ public class EnemyMove : MonoBehaviour
                 transform.position = new Vector3(transform.position.x, transform.position.y, Mathf.RoundToInt(transform.position.z));
             }
 
+            if (anim.GetCurrentAnimatorStateInfo(0).IsTag("Stop")) return;
             TargetPosition();
         }
         Move();
@@ -78,6 +79,9 @@ public class EnemyMove : MonoBehaviour
             if (moveX) x *= -1;
             if (moveZ) z *= -1;
         }
-        if(other.gameObject.CompareTag("Player")) target = beforePos;
+        if (other.gameObject.CompareTag("Player"))
+        {
+            target = beforePos;
+        }
     }
 }

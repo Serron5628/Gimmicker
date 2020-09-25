@@ -6,8 +6,8 @@ public class AMassMove : MonoBehaviour
 {
     public Vector3 moveX = new Vector3(1.0f, 0.0f, 0.0f);
     public Vector3 moveZ = new Vector3(0.0f, 0.0f, 1.0f);
-
-    public float speed = 8.0f;
+    
+    public float speed = 2.5f;
     public Vector3 beforePos;
     public Vector3 target;
     Rigidbody rigid;
@@ -31,7 +31,7 @@ public class AMassMove : MonoBehaviour
         if (distance <= 0.002f)  //ほぼ0
         {
             transform.position = new Vector3(Mathf.RoundToInt(transform.position.x), transform.position.y, Mathf.RoundToInt(transform.position.z));
-
+            if(heroAnim.GetCurrentAnimatorStateInfo(0).IsTag("Stop")) return;
             TargetPosition();
         }
         Move();
@@ -82,6 +82,8 @@ public class AMassMove : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Wall"))
         {
+            heroAnim.ResetTrigger("Walk");
+            heroAnim.SetTrigger("Damage");
             target = beforePos;
         }
     }

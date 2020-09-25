@@ -10,36 +10,61 @@ public class Player2 : MonoBehaviour
     public GameObject hp1;
     public GameObject hp2;
     public GameObject hp3;
+    public Material normalMat;
+    public Material pinchMat;
+    public Material outMat;
+    GameObject shape;
     Animator anim;
+    GameObject skinMesh;
     AMassMove scr;
 
     private void Start()
     {
-        anim = transform.Find("Shape").gameObject.GetComponent<Animator>();
+        shape = transform.Find("Shape").gameObject;
+        anim = shape.gameObject.GetComponent<Animator>();
+        skinMesh = shape.gameObject.transform.Find("hero").gameObject;
         scr = GetComponent<AMassMove>();
     }
 
     void FixedUpdate()
     {
-        //HPが〇以下になったときハートが消える
-        if (hp < 3) hp1.SetActive(false);
-        if (hp < 2) hp2.SetActive(false);
-        if (hp < 1) hp3.SetActive(false);
+        if (hp == 2) hp1.SetActive(false);
+        if (hp == 1) hp2.SetActive(false);
+        if (hp == 0) hp3.SetActive(false);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.CompareTag("Enemy"))
+        {
+            Damage();
+        }
     }
 
     void Damage()
     {
-        hp -= 1;
-        if (hp < 1)
+        hp--;
+        if (hp == 0)
         {
+            anim.ResetTrigger("Walk");
             anim.SetTrigger("Death");
+            skinMesh.GetComponent<SkinnedMeshRenderer>().material = outMat;
             scr.canMove = false;
+            hp--;
             //SceneManager.LoadScene("GameOverScene");
         }
         else
         {
             scr.target = scr.beforePos;
+            anim.ResetTrigger("Walk");
             anim.SetTrigger("Damage");
+            skinMesh.GetComponent<SkinnedMeshRenderer>().material = pinchMat;
+            Invoke("NormalMat", 0.8f);
         }
+    }
+
+    void NormalMat()
+    {
+        skinMesh.GetComponent<SkinnedMeshRenderer>().material = normalMat;
     }
 }
