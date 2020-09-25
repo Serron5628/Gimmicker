@@ -13,6 +13,12 @@ public class HaveRockAndPutOn : MonoBehaviour
     public float putOnYPos = -0.5f;
     public bool forwardWall = false;
     int spaceCount = 0;
+    //Animator playerAnim;
+
+    private void Start()
+    {
+        //playerAnim = player.transform.Find("Shape").GetComponent<Animator>();
+    }
 
     void Update()
     {
