@@ -18,6 +18,7 @@ public class ChangeFloor : MonoBehaviour
     AMassMove playerMove;
     public bool leftLever = true;
     Vector3 basePos;
+    Animator playerAnim;
 
     private void Start()
     {
@@ -25,6 +26,7 @@ public class ChangeFloor : MonoBehaviour
         switchAll = transform.parent.gameObject;
         swithAnim = GetComponent<Animator>();
         basePos = this.gameObject.transform.position - switchAll.transform.position;
+        playerAnim = player.transform.Find("Shape").gameObject.GetComponent<Animator>();
     }
 
     private void Update()
@@ -40,6 +42,9 @@ public class ChangeFloor : MonoBehaviour
         {
             isTrigger = false;
             playerMove.canMove = false;
+            player.transform.rotation = Quaternion.Euler(0, 180, 0);
+            if (leftLever) playerAnim.SetTrigger("LeftToRight");
+            else if (!leftLever) playerAnim.SetTrigger("RightToLeft");
             needKey = true;
             switchAll.gameObject.SendMessage("MoveAnimation");
             if (FloorA.transform.position == upPos)
