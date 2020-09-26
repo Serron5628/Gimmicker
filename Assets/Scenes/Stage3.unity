@@ -736,6 +736,11 @@ PrefabInstance:
       propertyPath: normalMat
       value: 
       objectReference: {fileID: 2100000, guid: bc1df231e3b6fbf4ba2dc272b77eb85a, type: 2}
+    - target: {fileID: 8616516259499732707, guid: d4c58378694d77549a0f5d16d7414a9a,
+        type: 3}
+      propertyPath: haveMat
+      value: 
+      objectReference: {fileID: 2100000, guid: aa91ad12c3f590b41bf4cb4f291d23dc, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d4c58378694d77549a0f5d16d7414a9a, type: 3}
 --- !u!1 &1031032572 stripped

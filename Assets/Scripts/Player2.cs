@@ -13,6 +13,7 @@ public class Player2 : MonoBehaviour
     public Material normalMat;
     public Material pinchMat;
     public Material outMat;
+    public Material haveMat;
     GameObject shape;
     Animator anim;
     GameObject skinMesh;
@@ -66,5 +67,10 @@ public class Player2 : MonoBehaviour
     void NormalMat()
     {
         skinMesh.GetComponent<SkinnedMeshRenderer>().material = normalMat;
+    }
+
+    void HaveMat()
+    {
+        skinMesh.GetComponent<SkinnedMeshRenderer>().material = haveMat;
     }
 }

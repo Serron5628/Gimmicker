@@ -13,11 +13,11 @@ public class HaveRockAndPutOn : MonoBehaviour
     public float putOnYPos = -0.5f;
     public bool forwardWall = false;
     int spaceCount = 0;
-    //Animator playerAnim;
+    Animator playerAnim;
 
     private void Start()
     {
-        //playerAnim = player.transform.Find("Shape").GetComponent<Animator>();
+        playerAnim = player.transform.Find("Shape").GetComponent<Animator>();
     }
 
     void Update()
@@ -30,6 +30,8 @@ public class HaveRockAndPutOn : MonoBehaviour
                 //持ってるかつ壁・スイッチを向いてる時は置けない。
                 if (isHadRock && forwardWall) return;
                 spaceCount++;
+                if (spaceCount % 2 == 1) playerAnim.SetTrigger("Have");
+                if (spaceCount % 2 == 0) playerAnim.SetTrigger("Put");
             }
         }
 
@@ -57,6 +59,7 @@ public class HaveRockAndPutOn : MonoBehaviour
 
     void HadRock()
     {
+        player.gameObject.SendMessage("HaveMat");
         gameObject.transform.position = new Vector3(player.transform.position.x, onHeadPos, player.transform.position.z);
         gameObject.transform.rotation = player.transform.rotation;
         isHadRock = true;
@@ -64,6 +67,7 @@ public class HaveRockAndPutOn : MonoBehaviour
 
     void PutOnPosition()
     {
+        player.gameObject.SendMessage("NormalMat");
         gameObject.transform.position = new Vector3(player.gameObject.transform.position.x + putOnX, putOnYPos, player.gameObject.transform.position.z + putOnZ);
         isHadRock = false;
         spaceCount = 0;
