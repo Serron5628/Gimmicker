@@ -31,7 +31,7 @@ public class Player2 : MonoBehaviour
     {
         if (hp == 2) hp1.SetActive(false);
         if (hp == 1) hp2.SetActive(false);
-        if (hp == 0) hp3.SetActive(false);
+        if (hp < 1) hp3.SetActive(false);
     }
 
     private void OnTriggerEnter(Collider other)
