@@ -80,7 +80,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveX: {x: 1, y: 0, z: 0}
   moveZ: {x: 0, y: 0, z: 1}
-  speed: 12
+  speed: 2.5
   beforePos: {x: 0, y: 0, z: 0}
   target: {x: 0, y: 0, z: 0}
   canMove: 1
@@ -129,6 +129,10 @@ MonoBehaviour:
   hp1: {fileID: 0}
   hp2: {fileID: 0}
   hp3: {fileID: 0}
+  normalMat: {fileID: 2100000, guid: bc1df231e3b6fbf4ba2dc272b77eb85a, type: 2}
+  pinchMat: {fileID: 2100000, guid: 6e0bccc7e1893864eb761c9628ed5745, type: 2}
+  outMat: {fileID: 2100000, guid: 9d9af196812374c4d9f444766f20d0dc, type: 2}
+  haveMat: {fileID: 2100000, guid: aa91ad12c3f590b41bf4cb4f291d23dc, type: 2}
 --- !u!1 &680980495617526701
 GameObject:
   m_ObjectHideFlags: 0
