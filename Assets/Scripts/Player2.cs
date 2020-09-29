@@ -18,6 +18,7 @@ public class Player2 : MonoBehaviour
     Animator anim;
     GameObject skinMesh;
     AMassMove scr;
+    GameObject piyo;
 
     private void Start()
     {
@@ -25,6 +26,7 @@ public class Player2 : MonoBehaviour
         anim = shape.gameObject.GetComponent<Animator>();
         skinMesh = shape.gameObject.transform.Find("hero").gameObject;
         scr = GetComponent<AMassMove>();
+        piyo = shape.transform.Find("faintedBird").gameObject;
     }
 
     void FixedUpdate()
@@ -51,6 +53,7 @@ public class Player2 : MonoBehaviour
             anim.SetTrigger("Death");
             skinMesh.GetComponent<SkinnedMeshRenderer>().material = outMat;
             scr.canMove = false;
+            piyo.SetActive(true);
             hp--;
             //SceneManager.LoadScene("GameOverScene");
         }
