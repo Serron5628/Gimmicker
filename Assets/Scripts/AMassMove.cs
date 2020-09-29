@@ -13,6 +13,7 @@ public class AMassMove : MonoBehaviour
     Rigidbody rigid;
     Animator heroAnim;
     public bool canMove = true;
+    public bool moveNow = false;
 
     void Start()
     {
@@ -30,6 +31,7 @@ public class AMassMove : MonoBehaviour
         float distance = (transform.position - target).sqrMagnitude;    //二乗。
         if (distance <= 0.002f)  //ほぼ0
         {
+            moveNow = false;
             transform.position = new Vector3(Mathf.RoundToInt(transform.position.x), transform.position.y, Mathf.RoundToInt(transform.position.z));
             if(heroAnim.GetCurrentAnimatorStateInfo(0).IsTag("Stop")) return;
             TargetPosition();
@@ -41,6 +43,7 @@ public class AMassMove : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
+            moveNow = true;
             target = transform.position + moveX;
             beforePos = transform.position;
             transform.LookAt(target);
@@ -49,6 +52,7 @@ public class AMassMove : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
+            moveNow = true;
             target = transform.position - moveX;
             beforePos = transform.position;
             transform.LookAt(target);
@@ -57,6 +61,7 @@ public class AMassMove : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
+            moveNow = true;
             target = transform.position + moveZ;
             beforePos = transform.position;
             transform.LookAt(target);
@@ -65,6 +70,7 @@ public class AMassMove : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
+            moveNow = true;
             target = transform.position - moveZ;
             beforePos = transform.position;
             transform.LookAt(target);

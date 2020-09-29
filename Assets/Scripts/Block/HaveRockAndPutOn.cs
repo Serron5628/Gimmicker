@@ -5,6 +5,7 @@ using UnityEngine;
 public class HaveRockAndPutOn : MonoBehaviour
 {
     public GameObject player;
+    AMassMove playerScr;
     bool isHadRock = false;
     bool isTrigger = false;
     float putOnX;
@@ -12,26 +13,39 @@ public class HaveRockAndPutOn : MonoBehaviour
     public float onHeadPos = 1.35f;
     public float putOnYPos = -0.5f;
     public bool forwardWall = false;
+    public bool having = false;
     int spaceCount = 0;
     Animator playerAnim;
+    BoxCollider wall;
 
     private void Start()
     {
         playerAnim = player.transform.Find("Shape").GetComponent<Animator>();
+        wall = transform.Find("Wall").GetComponent<BoxCollider>();
+        playerScr = player.gameObject.GetComponent<AMassMove>();
     }
 
     void Update()
     {
+        Debug.Log(playerScr.canMove);
         WhereLook();
         if (isTrigger)
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 //持ってるかつ壁・スイッチを向いてる時は置けない。
-                if (isHadRock && forwardWall) return;
+                if ((isHadRock && forwardWall) || having || playerScr.moveNow) return;
                 spaceCount++;
-                if (spaceCount % 2 == 1) playerAnim.SetTrigger("Have");
-                if (spaceCount % 2 == 0) playerAnim.SetTrigger("Put");
+                if (spaceCount % 2 == 1)
+                {
+                    having = true;
+                    playerAnim.SetTrigger("Have");
+                }
+                if (spaceCount % 2 == 0)
+                {
+                    having = true;
+                    playerAnim.SetTrigger("Put");
+                }
             }
         }
 
@@ -59,14 +73,42 @@ public class HaveRockAndPutOn : MonoBehaviour
 
     void HadRock()
     {
+        gameObject.transform.rotation = player.transform.rotation;
+        if (having)
+        {
+            playerScr.canMove = false;
+            wall.enabled = false;
+            //ペンキの動き
+            transform.position = Vector3.Lerp(transform.position, new Vector3(player.transform.position.x, onHeadPos, player.transform.position.z), Time.deltaTime * 4.5f);
+            float distance = (transform.position - new Vector3(player.transform.position.x, onHeadPos, player.transform.position.z)).sqrMagnitude;    //二乗。}
+            if (distance <= 0.002f)  //ほぼ0
+            {
+                transform.position = new Vector3(player.transform.position.x, onHeadPos, player.transform.position.z);
+                HavingToFalse();
+            }
+            return;
+        }
         player.gameObject.SendMessage("HaveMat");
         gameObject.transform.position = new Vector3(player.transform.position.x, onHeadPos, player.transform.position.z);
-        gameObject.transform.rotation = player.transform.rotation;
         isHadRock = true;
     }
 
     void PutOnPosition()
     {
+        if (having)
+        {
+            playerScr.canMove = false;
+            wall.enabled = false;
+            //ペンキの動き
+            transform.position = Vector3.Lerp(transform.position, new Vector3(player.transform.position.x + putOnX, putOnYPos, player.transform.position.z + putOnZ), Time.deltaTime * 2.6f);
+            float distance = (transform.position - new Vector3(player.transform.position.x + putOnX, putOnYPos, player.transform.position.z + putOnZ)).sqrMagnitude;    //二乗。
+            if (distance <= 0.002f)  //ほぼ0
+            {
+                transform.position = new Vector3(player.transform.position.x + putOnX, putOnYPos, player.transform.position.z + putOnZ);
+                HavingToFalse();
+            }
+            return;
+        }
         player.gameObject.SendMessage("NormalMat");
         gameObject.transform.position = new Vector3(player.gameObject.transform.position.x + putOnX, putOnYPos, player.gameObject.transform.position.z + putOnZ);
         isHadRock = false;
@@ -95,5 +137,12 @@ public class HaveRockAndPutOn : MonoBehaviour
             putOnX = 1.0f;
             putOnZ = 0.0f;
         }
+    }
+
+    public void HavingToFalse()
+    {
+        wall.enabled = true;
+        playerScr.canMove = true;
+        having = false;
     }
 }
