@@ -17,14 +17,14 @@ public class ToZero : MonoBehaviour
     void FixedUpdate()
     {
         float distance = (transform.position - target).sqrMagnitude;    //二乗。
-        if (distance <= 0.002f)  //ほぼ0
+        if (distance <= 0.002f && needZero)  //ほぼ0
         {
             transform.position = target;
             transform.parent = parentGmj.transform;
             needZero = false;
         }
 
-        if (needZero == true)
+        if (needZero)
         {
             transform.position = Vector3.Lerp(transform.position, target, speed * Time.deltaTime);
         }
