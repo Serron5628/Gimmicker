@@ -11,6 +11,7 @@ public class PaintWhite : MonoBehaviour
         if(other.gameObject.CompareTag("Paint"))
         {
             block.SetActive(true);
+            other.gameObject.SendMessage("HavingToFalse");
             Destroy(other.gameObject);
             Destroy(gameObject);
         }

@@ -27,7 +27,6 @@ public class HaveRockAndPutOn : MonoBehaviour
 
     void Update()
     {
-        Debug.Log(playerScr.canMove);
         WhereLook();
         if (isTrigger)
         {
