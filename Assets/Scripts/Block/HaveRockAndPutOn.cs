@@ -17,12 +17,14 @@ public class HaveRockAndPutOn : MonoBehaviour
     int spaceCount = 0;
     Animator playerAnim;
     BoxCollider wall;
+    GameObject parent;
 
     private void Start()
     {
         playerAnim = player.transform.Find("Shape").GetComponent<Animator>();
         wall = transform.Find("Wall").GetComponent<BoxCollider>();
         playerScr = player.gameObject.GetComponent<AMassMove>();
+        parent = gameObject.transform.parent.gameObject;
     }
 
     void Update()
@@ -33,17 +35,19 @@ public class HaveRockAndPutOn : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 //持ってるかつ壁・スイッチを向いてる時は置けない。
-                if ((isHadRock && forwardWall) || having || playerScr.moveNow) return;
+                if ((isHadRock && forwardWall) || having || playerScr.moveNow || (isHadRock == false && parent.GetComponent<HaveNow>().haveNow)) return;
                 spaceCount++;
-                if (spaceCount % 2 == 1)
-                {
-                    having = true;
-                    playerAnim.SetTrigger("Have");
-                }
                 if (spaceCount % 2 == 0)
                 {
+                    parent.SendMessage("Put");
                     having = true;
                     playerAnim.SetTrigger("Put");
+                }
+                if (spaceCount % 2 == 1)
+                {
+                    parent.SendMessage("Have");
+                    having = true;
+                    playerAnim.SetTrigger("Have");
                 }
             }
         }
@@ -108,7 +112,7 @@ public class HaveRockAndPutOn : MonoBehaviour
             }
             return;
         }
-        player.gameObject.SendMessage("NormalMat");
+        SendNormal();
         gameObject.transform.position = new Vector3(player.gameObject.transform.position.x + putOnX, putOnYPos, player.gameObject.transform.position.z + putOnZ);
         isHadRock = false;
         spaceCount = 0;
@@ -143,5 +147,10 @@ public class HaveRockAndPutOn : MonoBehaviour
         wall.enabled = true;
         playerScr.canMove = true;
         having = false;
+    }
+
+    void SendNormal()
+    {
+        player.gameObject.SendMessage("NormalMat");
     }
 }

@@ -13,7 +13,7 @@ public class CollideWall : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.CompareTag("Wall") || other.gameObject.CompareTag("Switch"))
+        if (other.gameObject.CompareTag("Wall") || other.gameObject.CompareTag("Switch") || other.gameObject.CompareTag("Paint"))
         {
             scr.forwardWall = true;
         }
@@ -21,7 +21,7 @@ public class CollideWall : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.CompareTag("Wall") || other.gameObject.CompareTag("Switch"))
+        if (other.gameObject.CompareTag("Wall") || other.gameObject.CompareTag("Switch") || other.gameObject.CompareTag("Paint"))
         {
             scr.forwardWall = false;
         }
