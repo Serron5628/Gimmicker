@@ -11,15 +11,42 @@ public class ChangeFloor : MonoBehaviour
     bool needKey = false;               //キーを押したかどうか。
     public Vector3 upPos = new Vector3(0.0f, 2.5f, 0.0f);   //Inspectorで指定できる、移動させる上の位置。頭上ギリギリの座標は禁止。
     public Vector3 downPos = new Vector3(0.0f, 1.3f, 0.0f); //Inspectorで指定できる、移動させる下の位置。足元ギリギリの座標は禁止。
-    public float lerpSpeed = 6.0f;      //床が上がるスピード。値が大きいほど速い。
+    public float lerpSpeed = 2.5f;      //床が上がるスピード。値が大きいほど速い。
+    GameObject switchAll;
+    Animator swithAnim;
+    public GameObject player;
+    AMassMove playerMove;
+    public bool leftLever = true;
+    Vector3 basePos;
+    Animator playerAnim;
+
+    private void Start()
+    {
+        playerMove = player.GetComponent<AMassMove>();
+        switchAll = transform.parent.gameObject;
+        swithAnim = GetComponent<Animator>();
+        basePos = this.gameObject.transform.position - switchAll.transform.position;
+        playerAnim = player.transform.Find("Shape").gameObject.GetComponent<Animator>();
+    }
 
     private void Update()
     {
-        //スイッチ内部に入ってて、かつ、スペースキーを押したら。
-        if (isTrigger && Input.GetKeyDown(KeyCode.Space))
+        if(player.gameObject.transform.position == basePos)
         {
+            isTrigger = true;
+        }
+        else isTrigger = false;
+
+        //スイッチ内部に入ってて、かつ、スペースキーを押したら。
+        if (isTrigger && Input.GetKeyDown(KeyCode.Space) && needKey == false)
+        {
+            isTrigger = false;
+            playerMove.canMove = false;
+            player.transform.rotation = Quaternion.Euler(0, 180, 0);
+            if (leftLever) playerAnim.SetTrigger("LeftToRight");
+            else if (!leftLever) playerAnim.SetTrigger("RightToLeft");
             needKey = true;
-            GetComponent<Animator>().SetTrigger("Push");
+            switchAll.gameObject.SendMessage("MoveAnimation");
             if (FloorA.transform.position == upPos)
             {
                 needMove = 1;
@@ -29,30 +56,13 @@ public class ChangeFloor : MonoBehaviour
                 needMove = 2;
             }
         }
+
         if(needKey)
         {
             UpAndDown();
         }
     }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            isTrigger = true;
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        //スイッチを押さずに出てきたときの対応。
-        if (other.gameObject.CompareTag("Player"))
-        {
-            GetComponent<Animator>().SetTrigger("Out");
-            isTrigger = false;
-        }
-    }
-
+    
     void UpAndDown()
     {
         if(needMove == 1)
@@ -64,9 +74,9 @@ public class ChangeFloor : MonoBehaviour
                 //最後の調整。
                 FloorA.transform.position = new Vector3(FloorA.transform.position.x, downPos.y, FloorA.transform.position.z);
                 FloorB.transform.position = new Vector3(FloorB.transform.position.x, upPos.y, FloorB.transform.position.z);
-                isTrigger = false;  //二度押し禁止。
                 needKey = false;
                 needMove = 0;
+                playerMove.canMove = true;
             }
         }
         else if(needMove == 2)
@@ -78,10 +88,19 @@ public class ChangeFloor : MonoBehaviour
                 //最後の調整。
                 FloorA.transform.position = new Vector3(FloorA.transform.position.x, upPos.y, FloorA.transform.position.z);
                 FloorB.transform.position = new Vector3(FloorB.transform.position.x, downPos.y, FloorB.transform.position.z);
-                isTrigger = false;  //二度押し禁止。
                 needKey = false;
                 needMove = 0;
+                playerMove.canMove = true;
             }
         }
+    }
+
+    void Anim()
+    {
+        string which;
+        if (leftLever) which = "Right";
+        else which = "Left";
+        swithAnim.SetTrigger(which);
+        leftLever = !leftLever;
     }
 }

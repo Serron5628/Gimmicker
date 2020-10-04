@@ -6,25 +6,33 @@ public class EnemyMove : MonoBehaviour
 {
     public Vector3 x = new Vector3(1.0f, 0.0f, 0.0f);
     public Vector3 z = new Vector3(0.0f, 0.0f, 1.0f);
-
-    public float speed = 8.0f;
+    
+    float speed;
     Vector3 beforePos;
     Vector3 target;
     Rigidbody rigid;
     public bool needMove = true;
     public bool moveZ = true;
     public bool moveX = false;
+    public GameObject player;
+    AMassMove playerScr;
+    Animator anim;
 
     void Start()
     {
+        playerScr = player.GetComponent<AMassMove>();
+        speed = playerScr.speed;
         target = transform.position;
         beforePos = transform.position;
         rigid = GetComponent<Rigidbody>();
         rigid.isKinematic = true;
+        anim = transform.Find("Shape").gameObject.GetComponent<Animator>();
     }
 
     void FixedUpdate()
     {
+        //if(playerScr.target == target || (playerScr.beforePos == target && beforePos == playerScr.target)) player.SendMessage("Damage");
+        if (playerScr.canMove == false) return;
         if (!needMove) return;
         float distance = (transform.position - target).sqrMagnitude;    //二乗。
         if (distance <= 0.002f)  //ほぼ0
@@ -38,6 +46,7 @@ public class EnemyMove : MonoBehaviour
                 transform.position = new Vector3(transform.position.x, transform.position.y, Mathf.RoundToInt(transform.position.z));
             }
 
+            if (anim.GetCurrentAnimatorStateInfo(0).IsTag("Stop")) return;
             TargetPosition();
         }
         Move();
@@ -52,6 +61,7 @@ public class EnemyMove : MonoBehaviour
             if(moveX) target = transform.position + x;
             beforePos = transform.position;
             transform.LookAt(target);
+            anim.SetTrigger("Walk");
             return;
         }
     }
@@ -66,8 +76,12 @@ public class EnemyMove : MonoBehaviour
         if (other.gameObject.CompareTag("Wall") || other.gameObject.CompareTag("Enemy"))
         {
             target = beforePos;
-            if(moveX) x *= -1;
-            if(moveZ) z *= -1;
+            if (moveX) x *= -1;
+            if (moveZ) z *= -1;
+        }
+        if (other.gameObject.CompareTag("Player"))
+        {
+            target = beforePos;
         }
     }
 }
