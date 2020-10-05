@@ -14,6 +14,7 @@ public class AMassMove : MonoBehaviour
     Animator heroAnim;
     public bool canMove = true;
     public bool moveNow = false;
+    public bool rideElevator = false;
 
     void Start()
     {
@@ -27,6 +28,7 @@ public class AMassMove : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (rideElevator) return;
         if (!canMove) return;
         float distance = (transform.position - target).sqrMagnitude;    //二乗。
         if (distance <= 0.002f)  //ほぼ0

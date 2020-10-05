@@ -33,7 +33,7 @@ public class EnemyMove : MonoBehaviour
 
     void FixedUpdate()
     {
-        //if(playerScr.target == target || (playerScr.beforePos == target && beforePos == playerScr.target)) player.SendMessage("Damage");
+        if (playerScr.rideElevator) return;
         if (playerScr.canMove == false) return;
         if (!needMove) return;
         float distance = (transform.position - target).sqrMagnitude;    //二乗。
