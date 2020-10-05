@@ -15,6 +15,7 @@ public class EnemyMove : MonoBehaviour
     public bool moveZ = true;
     public bool moveX = false;
     public GameObject player;
+    Animator playerAnim;
     AMassMove playerScr;
     Animator anim;
 
@@ -27,6 +28,7 @@ public class EnemyMove : MonoBehaviour
         rigid = GetComponent<Rigidbody>();
         rigid.isKinematic = true;
         anim = transform.Find("Shape").gameObject.GetComponent<Animator>();
+        playerAnim = player.transform.Find("Shape").gameObject.GetComponent<Animator>();
     }
 
     void FixedUpdate()
@@ -46,7 +48,7 @@ public class EnemyMove : MonoBehaviour
                 transform.position = new Vector3(transform.position.x, transform.position.y, Mathf.RoundToInt(transform.position.z));
             }
 
-            if (anim.GetCurrentAnimatorStateInfo(0).IsTag("Stop")) return;
+            if (anim.GetCurrentAnimatorStateInfo(0).IsTag("Stop") || playerAnim.GetCurrentAnimatorStateInfo(0).IsTag("Stop")) return;
             TargetPosition();
         }
         Move();
