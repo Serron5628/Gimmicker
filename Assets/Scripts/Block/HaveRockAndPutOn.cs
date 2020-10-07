@@ -98,14 +98,14 @@ public class HaveRockAndPutOn : MonoBehaviour
 
     void PutOnPosition()
     {
+        Vector3 target = new Vector3(player.transform.position.x + putOnX, putOnYPos, player.transform.position.z + putOnZ);
         if (having)
         {
             playerScr.canMove = false;
             wall.enabled = false;
             //ペンキの動き
-            Vector3 target = new Vector3(player.transform.position.x + putOnX, putOnYPos, player.transform.position.z + putOnZ);
             transform.position = Vector3.Lerp(transform.position, target, Time.deltaTime * 2.6f);
-            float distance = (transform.position - new Vector3(player.transform.position.x + putOnX, putOnYPos, player.transform.position.z + putOnZ)).sqrMagnitude;    //二乗。
+            float distance = (transform.position - target).sqrMagnitude;    //二乗。
             if (distance <= 0.002f)  //ほぼ0
             {
                 transform.position = target;
@@ -114,7 +114,6 @@ public class HaveRockAndPutOn : MonoBehaviour
             return;
         }
         SendNormal();
-        gameObject.transform.position = new Vector3(player.gameObject.transform.position.x + putOnX, putOnYPos, player.gameObject.transform.position.z + putOnZ);
         isHadRock = false;
         spaceCount = 0;
     }
