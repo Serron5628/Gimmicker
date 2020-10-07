@@ -103,11 +103,12 @@ public class HaveRockAndPutOn : MonoBehaviour
             playerScr.canMove = false;
             wall.enabled = false;
             //ペンキの動き
-            transform.position = Vector3.Lerp(transform.position, new Vector3(player.transform.position.x + putOnX, putOnYPos, player.transform.position.z + putOnZ), Time.deltaTime * 2.6f);
+            Vector3 target = new Vector3(player.transform.position.x + putOnX, putOnYPos, player.transform.position.z + putOnZ);
+            transform.position = Vector3.Lerp(transform.position, target, Time.deltaTime * 2.6f);
             float distance = (transform.position - new Vector3(player.transform.position.x + putOnX, putOnYPos, player.transform.position.z + putOnZ)).sqrMagnitude;    //二乗。
             if (distance <= 0.002f)  //ほぼ0
             {
-                transform.position = new Vector3(player.transform.position.x + putOnX, putOnYPos, player.transform.position.z + putOnZ);
+                transform.position = target;
                 HavingToFalse();
             }
             return;
