@@ -43,8 +43,6 @@ public class TitleButton : MonoBehaviour
 
     public void GameEnd()
     {
-        //後で消す。
-        UnityEditor.EditorApplication.isPlaying = false;
         UnityEngine.Application.Quit();
     }
 }
