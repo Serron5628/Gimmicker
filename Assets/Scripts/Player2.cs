@@ -19,6 +19,7 @@ public class Player2 : MonoBehaviour
     GameObject skinMesh;
     AMassMove scr;
     GameObject piyo;
+    public GameObject gameMaster;
 
     private void Start()
     {
@@ -49,13 +50,13 @@ public class Player2 : MonoBehaviour
         hp--;
         if (hp == 0)
         {
+            gameMaster.gameObject.SendMessage("PlayerDead");
             anim.ResetTrigger("Walk");
             anim.SetTrigger("Death");
             skinMesh.GetComponent<SkinnedMeshRenderer>().material = outMat;
             scr.canMove = false;
             piyo.SetActive(true);
             hp--;
-            //SceneManager.LoadScene("GameOverScene");
         }
         else
         {
