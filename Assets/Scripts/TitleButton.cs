@@ -14,6 +14,8 @@ public class TitleButton : MonoBehaviour
 
     void Start()
     {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
         stageButton1 = GameObject.Find("Master/Canvas/StageButton").gameObject;
         stageButton2 = GameObject.Find("Master/Canvas/StageButton (1)").gameObject;
         stageButton3 = GameObject.Find("Master/Canvas/StageButton (2)").gameObject;
@@ -26,6 +28,7 @@ public class TitleButton : MonoBehaviour
     private void Update()
     {
         if (Input.GetKey(KeyCode.Escape)) GameEnd();
+        if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1) || Input.GetMouseButtonDown(2)) button.Select();
     }
 
     public void FromTheBegining(string stage)
@@ -43,6 +46,8 @@ public class TitleButton : MonoBehaviour
 
     public void GameEnd()
     {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
         UnityEngine.Application.Quit();
     }
 }
